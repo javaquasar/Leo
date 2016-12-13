@@ -63,6 +63,7 @@ public class ApiClient {
         try {
             HttpURLConnection conn = getHttpURLConnection(requestUrl, "GET", urlParameters);
             translation = gson.fromJson(processResponse(conn), TranslationsDto.class);
+            System.out.println(translation.soundUrl);
         } catch (IOException e) {
             translation = new TranslationsDto();
             logger.log(Level.WARNING, e.getMessage(), e);
@@ -125,6 +126,7 @@ public class ApiClient {
         }
 
         assert responseBody != null;
+        System.out.println(responseBody);
         return responseBody;
     }
 

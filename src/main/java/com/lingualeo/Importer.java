@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Importer {
+
     private final List<Word> words;
     private final ApiClient client;
     private static final Logger logger = Logger.getLogger(Importer.class.getName());
@@ -50,6 +51,7 @@ public class Importer {
 
         for (Word word : words) {
             try {
+                System.out.println(client.getTranslates(word.getName()));
                 Iterator<TranslateDto> it = client.getTranslates(word.getName()).iterator();
                 processWord(word, it);
 
@@ -66,19 +68,21 @@ public class Importer {
     }
 
     private void processWord(Word word, Iterator<TranslateDto> it) throws AuthenticationException, IOException {
-        if(it.hasNext()) {
+        if (it.hasNext()) {
             TranslateDto tr = it.next();
-           if (tr.isUser == 1) {
+            if (tr.isUser == 1) {
                 logger.finest("Word exists: " + word.getName());
+                System.out.println("Word exists: " + word.getName());
             } else {
-                client.addWord(word.getName(), "hello"/*tr.value*/, word.getContext());
+                client.addWord(word.getName(), tr.value, word.getContext());
                 logger.finest("Word added: " + word.getName());
+                System.out.println("Word added: " + word.getName());
             }
         }
     }
 
     private void updateProgress(double progress) {
-        if(progressBar != null) {
+        if (progressBar != null) {
             progressBar.setProgress(progress);
         }
     }
