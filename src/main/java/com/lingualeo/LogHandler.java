@@ -5,8 +5,8 @@ import javafx.scene.control.TextArea;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-
 class LogHandler extends Handler {
+
     private TextArea textArea;
 
     LogHandler(TextArea textArea) {

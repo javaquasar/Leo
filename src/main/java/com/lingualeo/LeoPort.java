@@ -13,6 +13,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class LeoPort extends Application {
+
     private static final Logger logger = Logger.getLogger(LeoPort.class.getName());
 
     public static void main(String[] args) {

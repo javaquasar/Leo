@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseReader {
+
     File file;
     List<Word> words = new ArrayList<>();
 

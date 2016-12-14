@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class TextReader extends BaseReader {
+
     private static final Logger logger = Logger.getLogger(TextReader.class.getName());
 
     TextReader(File file) {

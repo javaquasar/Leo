@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ApiClient {
+
     private static final String API_URL = "http://api.lingualeo.com/";
     private final String login;
     private final String password;
@@ -54,21 +55,25 @@ public class ApiClient {
         }
     }
 
-    public List<TranslateDto> getTranslates(String word) throws AuthenticationException {
+    public List<Translate> getTranslates(String word) throws AuthenticationException {
+        return getTranslationsDto(word).getTranslateList();
+    }
+    
+    public TranslationsDto getTranslationsDto(String word) throws AuthenticationException {
         checkUserRights();
         String urlParameters = "word=" + word;
         String requestUrl = API_URL + "gettranslates";
 
-        TranslationsDto translation;
+        TranslationsDto translationsDto;
         try {
             HttpURLConnection conn = getHttpURLConnection(requestUrl, "GET", urlParameters);
-            translation = gson.fromJson(processResponse(conn), TranslationsDto.class);
-            System.out.println(translation.soundUrl);
+            translationsDto = gson.fromJson(processResponse(conn), TranslationsDto.class);
+            System.out.println(translationsDto.getSoundUrl());
         } catch (IOException e) {
-            translation = new TranslationsDto();
+            translationsDto = new TranslationsDto();
             logger.log(Level.WARNING, e.getMessage(), e);
         }
-        return translation.translate;
+        return translationsDto;
     }
 
     public void addWord(String word, String translate, String context) throws AuthenticationException {
@@ -103,7 +108,6 @@ public class ApiClient {
         if (urlParameters != null) {
             conn.getOutputStream().write(urlParameters.getBytes());
         }
-
         return conn;
     }
 

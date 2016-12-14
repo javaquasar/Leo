@@ -1,7 +1,7 @@
 package com.lingualeo;
 
 import com.lingualeo.client.ApiClient;
-import com.lingualeo.client.TranslateDto;
+import com.lingualeo.client.Translate;
 import com.lingualeo.reader.Word;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,10 +20,10 @@ public class ImporterTest extends Assert {
     public void testStartImportOk() throws IOException, AuthenticationException {
         ApiClient clientMock = mock(ApiClient.class);
 
-        List<TranslateDto> translates = new ArrayList<>();
-        TranslateDto translate = new TranslateDto();
-        translate.value = "тест";
-        translate.isUser = 0;
+        List<Translate> translates = new ArrayList<>();
+        Translate translate = new Translate();
+        translate.setValue("тест");
+        translate.setIsUser(0);
         translates.add(translate);
 
         when(clientMock.getTranslates("test")).thenReturn(translates);
@@ -37,7 +37,7 @@ public class ImporterTest extends Assert {
     @Test
     public void testStartImportWithRussianWords() throws IOException, AuthenticationException {
         ApiClient clientMock = mock(ApiClient.class);
-        List<TranslateDto> translates = new ArrayList<>();
+        List<Translate> translates = new ArrayList<>();
 
         when(clientMock.getTranslates("русское слово")).thenReturn(translates);
 

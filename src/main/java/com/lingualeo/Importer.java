@@ -1,7 +1,8 @@
 package com.lingualeo;
 
 import com.lingualeo.client.ApiClient;
-import com.lingualeo.client.TranslateDto;
+import com.lingualeo.client.Translate;
+import com.lingualeo.client.TranslationsDto;
 import com.lingualeo.reader.Word;
 import javafx.scene.control.ProgressBar;
 
@@ -52,8 +53,10 @@ public class Importer {
         for (Word word : words) {
             try {
                 System.out.println(client.getTranslates(word.getName()));
-                Iterator<TranslateDto> it = client.getTranslates(word.getName()).iterator();
+                Iterator<Translate> it = client.getTranslates(word.getName()).iterator();
                 processWord(word, it);
+//                TranslationsDto translationsDto = client.getTranslationsDto(word.getName());
+//                processWord(word, translationsDto);
 
                 float percent = i / count;
                 updateProgress(percent);
@@ -67,17 +70,29 @@ public class Importer {
         logger.finest("End import to Lingualeo...");
     }
 
-    private void processWord(Word word, Iterator<TranslateDto> it) throws AuthenticationException, IOException {
+    private void processWord(Word word, Iterator<Translate> it) throws AuthenticationException, IOException {
+        //client.addWord("exultation", "exultation", "exultation");
         if (it.hasNext()) {
-            TranslateDto tr = it.next();
-            if (tr.isUser == 1) {
+            Translate tr = it.next();
+            if (tr.getIsUser() == 1) {
                 logger.finest("Word exists: " + word.getName());
                 System.out.println("Word exists: " + word.getName());
             } else {
-                client.addWord(word.getName(), tr.value, word.getContext());
+                client.addWord(word.getName(), tr.getValue(), word.getContext());
                 logger.finest("Word added: " + word.getName());
                 System.out.println("Word added: " + word.getName());
             }
+        }
+    }
+    
+    private void processWord(Word word, TranslationsDto translationsDto) throws AuthenticationException, IOException {
+        //client.addWord("first door", "первая дверь", null);
+        if (translationsDto.getIsUser() == 0) {
+            client.addWord(word.getName(), translationsDto.getPopularTranslateValue(), word.getContext());
+            logger.finest("Word added: " + word.getName());
+            System.out.println("Word added: " + word.getName());
+        } else {
+            logger.finest("Word exists: " + word.getName());
         }
     }
 

@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.List;
 
 public class FormController {
+
     public PasswordField passwordField;
     public TextField emailField;
     public Button startButton;

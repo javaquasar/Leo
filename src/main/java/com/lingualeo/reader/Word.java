@@ -1,7 +1,8 @@
 package com.lingualeo.reader;
 
 public class Word {
-    private String name;
+
+    private final String name;
     private String context;
 
     public Word(String name) {
